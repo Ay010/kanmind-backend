@@ -1,28 +1,28 @@
 # KanMind Backend
 
-Ein Backend-Projekt für Kanban-Boards und Aufgabenverwaltung, basierend auf Django und Django REST Framework.
+A backend project for Kanban boards and task management, based on Django and Django REST Framework.
 
 ## Features
 
-- Benutzerverwaltung mit eigenem User-Modell
-- Token-basierte Authentifizierung
-- REST-API für Boards, Tasks und User
-- CORS-Unterstützung (für Entwicklung offen für alle Ursprünge)
+- User management with custom User model
+- Token-based authentication
+- REST API for Boards, Tasks, and Users
+- CORS support (open to all origins for development)
 
-## Voraussetzungen
+## Prerequisites
 
-- Python 3.10 oder höher
+- Python 3.10 or higher
 - [pip](https://pip.pypa.io/en/stable/)
-- (Optional) Virtuelle Umgebung (empfohlen)
+- (Optional) Virtual environment (recommended)
 
 ## Installation
 
-1. Repository klonen:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Ay010/kanmind-backend.git
    cd kanmind-backend
    ```
-2. Virtuelle Umgebung erstellen und aktivieren:
+2. Create and activate virtual environment:
    ```bash
    python -m venv venv
    # Windows:
@@ -30,72 +30,72 @@ Ein Backend-Projekt für Kanban-Boards und Aufgabenverwaltung, basierend auf Dja
    # Linux/macOS:
    source venv/bin/activate
    ```
-3. Abhängigkeiten installieren:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Konfiguration
+## Configuration
 
-- Die wichtigsten Einstellungen befinden sich in `kanmind/settings.py`.
-- Für produktive Nutzung sollten sensible Daten (wie `SECRET_KEY`) in eine `.env`-Datei ausgelagert werden (z.B. mit [django-environ](https://django-environ.readthedocs.io/en/latest/)).
-- Standardmäßig wird SQLite als Datenbank verwendet. Für andere Datenbanken bitte die Einstellungen in `settings.py` anpassen.
+- The main settings are located in `kanmind/settings.py`.
+- For production use, sensitive data (such as `SECRET_KEY`) should be moved to a `.env` file (e.g., using [django-environ](https://django-environ.readthedocs.io/en/latest/)).
+- SQLite is used as the default database. For other databases, please adjust the settings in `settings.py`.
 
-## Migrationen & Superuser
+## Migrations & Superuser
 
-1. Migrationen anwenden:
+1. Apply migrations:
    ```bash
    python manage.py migrate
    ```
-2. Superuser anlegen:
+2. Create superuser:
    ```bash
    python manage.py createsuperuser
    ```
 
-## Projekt starten
+## Starting the Project
 
 ```bash
 python manage.py runserver
 ```
 
-Das Backend ist dann erreichbar unter: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+The backend will be available at: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## API-Authentifizierung
+## API Authentication
 
-- Die API verwendet Token-Authentifizierung.
-- Nach dem Login erhält der User einen Token, der bei weiteren API-Requests im Header `Authorization: Token <token>` mitgesendet werden muss.
+- The API uses token authentication.
+- After login, the user receives a token that must be included in subsequent API requests in the header `Authorization: Token <token>`.
 
-## Besonderheiten & Hinweise
+## Special Features & Notes
 
-- **CORS:** Für Entwicklung ist CORS für alle Ursprünge erlaubt. In Produktion bitte auf spezifische Domains einschränken!
-- **User-Modell:** Es wird ein eigenes User-Modell verwendet (`user_auth.User`).
-- **Standardrechte:** Alle API-Endpunkte sind nur für authentifizierte Nutzer zugänglich.
-- **Datenbank:** Die Datei `db.sqlite3` ist in `.gitignore` und wird nicht mitgeliefert.
+- **CORS:** For development, CORS is allowed for all origins. In production, please restrict to specific domains!
+- **User Model:** A custom User model is used (`user_auth.User`).
+- **Default Permissions:** All API endpoints are only accessible to authenticated users.
+- **Database:** The `db.sqlite3` file is in `.gitignore` and is not included in the repository.
 
-## Beispiel: Token erhalten
+## Example: Obtaining a Token
 
 ```bash
 POST /user_auth/api/token/
 {
-  "username": "<dein_username>",
-  "password": "<dein_passwort>"
+  "username": "<your_username>",
+  "password": "<your_password>"
 }
 ```
 
-Antwort:
+Response:
 
 ```json
 {
-  "token": "<dein_token>"
+  "token": "<your_token>"
 }
 ```
 
-## Weiterführende Links
+## Further Links
 
-- [Django Dokumentation](https://docs.djangoproject.com/)
+- [Django Documentation](https://docs.djangoproject.com/)
 - [Django REST Framework](https://www.django-rest-framework.org/)
 
 ---
 
-**Fragen oder Probleme?**
-Bitte ein Issue im [GitHub-Repository](https://github.com/Ay010/kanmind-backend) erstellen.
+**Questions or Issues?**
+Please create an issue in the [GitHub Repository](https://github.com/Ay010/kanmind-backend).
