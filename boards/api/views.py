@@ -28,7 +28,7 @@ class BoardListCreateView(ListCreateAPIView):
         return [IsOwnerOrMember()]
 
     def perform_create(self, serializer):
-        board = serializer.save(owner_id=self.request.user)
+        board = serializer.save(owner_id=self.request.user.id)
         if not board.members.filter(id=self.request.user.id).exists():
             board.members.add(self.request.user)
 

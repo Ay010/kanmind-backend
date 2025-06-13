@@ -45,7 +45,7 @@ class ReviewingListView(ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Task.objects.filter(reviewer=self.request.user)
+        return Task.objects.filter(reviewer_id=self.request.user.id)
 
 
 class TaskCommentView(ListCreateAPIView):

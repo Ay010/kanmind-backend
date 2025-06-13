@@ -20,7 +20,7 @@ class RegisterView(CreateAPIView):
             'token': token.key,
             'fullname': user.fullname,
             'email': user.email,
-            'id': user.id
+            'user_id': user.id
         }, status=status.HTTP_201_CREATED)
 
 
