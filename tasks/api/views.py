@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import DestroyAPIView
 from tasks.api.permissions import IsMemberInBoard, IsCreatorOrBoardOwner, IsTaskBoardMember, IsCreator
 from django.http import Http404
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class TaskCreateView(CreateAPIView):
@@ -31,6 +33,13 @@ class TaskDetailView(RetrieveUpdateDestroyAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+    def delete(self, request, *args, **kwargs):
+        super().delete(request, *args, **kwargs)
+        return Response(
+            {"message": f"task successfully deleted."},
+            status=status.HTTP_204_NO_CONTENT
+        )
+
 
 class AssignedToMeView(ListAPIView):
     serializer_class = TaskSerializer
@@ -53,9 +62,15 @@ class TaskCommentView(ListCreateAPIView):
     permission_classes = [IsTaskBoardMember]
 
     def get_queryset(self):
-        return TaskComment.objects.filter(task=self.kwargs['pk'])
+        if not Task.objects.filter(id=self.kwargs['pk']).exists():
+            raise Http404(
+                f"Task does not exist.")
+        return TaskComment.objects.filter(task_id=self.kwargs['pk'])
 
     def perform_create(self, serializer):
+        if not Task.objects.filter(id=self.kwargs['pk']).exists():
+            raise Http404(
+                f"Task does not exist.")
         serializer.save(
             author=self.request.user,
             task_id=self.kwargs['pk']
@@ -74,13 +89,21 @@ class DeleteTaskCommentView(DestroyAPIView):
         return queryset
 
     def get_object(self):
+
         queryset = self.get_queryset()
         obj = queryset.first()
         if not obj:
             raise Http404(
-                f"Kommentar {self.kwargs['comment_id']} existiert nicht in Task {self.kwargs['pk']}")
+                f"comment {self.kwargs['comment_id']} does not exist in task {self.kwargs['pk']}")
         self.check_object_permissions(self.request, obj)
         return obj
 
     def perform_destroy(self, instance):
         instance.delete()
+
+    def delete(self, request, *args, **kwargs):
+        super().delete(request, *args, **kwargs)
+        return Response(
+            {"message": f"comment successfully deleted."},
+            status=status.HTTP_204_NO_CONTENT
+        )

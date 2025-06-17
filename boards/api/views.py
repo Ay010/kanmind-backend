@@ -71,8 +71,8 @@ class BoardDetailView(RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         super().delete(request, *args, **kwargs)
         return Response(
-            {"message": f"Successfully deleted board {self.get_object().title}."},
-            status=status.HTTP_200_OK
+            {"message": f"board successfully deleted."},
+            status=status.HTTP_204_NO_CONTENT
         )
 
 
